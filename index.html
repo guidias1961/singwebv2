@@ -1059,11 +1059,12 @@
 
 .carousel-track {
     display: flex;
-    animation: scrollCarousel 1500000s linear infinite;
-    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
     padding: 1rem 0;
-    overflow: visible;
 }
+
 
 .carousel-track img {
     height: 90px;
@@ -1071,21 +1072,27 @@
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 0 20px var(--neon-cyan);
-    transition: transform 0.5s ease;
+    transition: transform 0.3s ease;
 }
+
+.carousel-track img:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .carousel-track {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+        row-gap: 2rem;
+    }
+
+
 
 .carousel-track img:hover {
     transform: scale(1.1);
 }
 
-@keyframes scrollCarousel {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
-}
 
 
 
@@ -1583,6 +1590,21 @@
             heroTitle.textContent = '';
             setTimeout(typeWriter, 1000);
         });
+
+function updateCarouselSpeed() {
+    const track = document.querySelector('.carousel-track');
+    if (!track) return;
+
+    const isMobile = window.innerWidth <= 768;
+    const duration = isMobile ? 100 : 0; // 100s no mobile, 0s no desktop (parado)
+
+    track.style.animationDuration = duration > 0 ? `${duration}s` : 'unset';
+    track.style.animationPlayState = duration > 0 ? 'running' : 'paused';
+}
+
+window.addEventListener('load', updateCarouselSpeed);
+window.addEventListener('resize', updateCarouselSpeed);
+
 
         // Advanced Visual Effects
         class VisualEffects {
