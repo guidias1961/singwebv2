@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singularity - The Future of AI Trading</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --neon-cyan: #00ffff;
+            --neon-magenta: #ff00ff;
+            --neon-purple: #8b00ff;
+            --neon-orange: #ff6600;
+            --neon-green: #00ff88;
+            --neon-green-soft: #00cc66;
+            --text-light: #ffffff;
+            --text-gray: #b0b0b0;
+            --gradient-primary: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+            --gradient-secondary: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            --gradient-terminal: linear-gradient(135deg, var(--neon-orange), var(--neon-cyan));
+            --gradient-green: linear-gradient(135deg, var(--neon-green-soft), var(--neon-green));
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Grid Effect */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            object-fit: cover;
+            filter: drop-shadow(0 0 10px var(--neon-cyan));
+            animation: logoEntrance 2s ease-out;
+            transform-origin: center;
+        }
+
+        @keyframes logoEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.3) rotate(-90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .logo-img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--neon-cyan);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+.hero {
+    padding: 6rem 2rem;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background: radial-gradient(ellipse at center, rgba(139, 0, 255, 0.1) 0%, transparent 70%);
+}
+
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--neon-cyan);
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 0, 255, 0.7)); }
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-gray);
+            max-width: 600px;
+        }
+
+        /* Buttons Container - CORREÇÃO PRINCIPAL DO ALINHAMENTO */
+        .cta-buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .cta-terminal {
+            background: var(--gradient-terminal);
+        }
+
+        .cta-terminal:hover {
+            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.3);
+        }
+
+        /* Trade Button Special - CORREÇÃO DO MENU DROPDOWN */
+        .trade-button-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .trade-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(5, 5, 5, 0.98);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 15px;
+            padding: 1rem;
+            min-width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .trade-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .trade-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.2rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid transparent;
+        }
+
+        .trade-menu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .trade-menu-item:hover {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            transform: translateX(5px);
+            border-color: var(--neon-cyan);
+        }
+
+        .trade-menu-item .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--neon-cyan), transparent);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--neon-magenta);
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--neon-cyan);
+        }
+
+        /* Terminal Section - CORREÇÃO DO SISTEMA DE ROLAGEM */
+        .terminal-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--neon-orange);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 102, 0, 0.2);
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--neon-orange);
+        }
+
+        .terminal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--neon-orange);
+            text-shadow: 0 0 10px var(--neon-orange);
+        }
+
+.terminal-frame-container {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    max-height: 90vh;
+    min-height: 500px;
+    border-radius: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: inset 0 0 20px rgba(255, 102, 0, 0.1);
+}
+
+
+
+.terminal-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    border: none;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.9);
+    overflow: auto;
+}
+
+
+
+        /* Products Grid - CORREÇÃO DAS CORES MUITO INTENSAS */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+
+        .product-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 204, 102, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 204, 102, 0.1), rgba(0, 255, 136, 0.05));
+            border-radius: inherit;
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 204, 102, 0.2);
+            border-color: rgba(0, 204, 102, 0.6);
+        }
+
+        .product-card:hover::before {
+            background: linear-gradient(135deg, rgba(0, 204, 102, 0.15), rgba(0, 255, 136, 0.08));
+        }
+
+        .product-card h3 {
+            font-family: 'Orbitron', monospace;
+            color: #00e676;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .product-card p {
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .product-card ul {
+            text-align: left;
+            margin-top: 1rem;
+            color: #b0b0b0;
+        }
+
+        .product-card ul li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Token Section */
+        .token-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .token-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .token-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            background: var(--gradient-primary);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+        }
+
+        /* Roadmap */
+        .roadmap {
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .roadmap-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient-primary);
+            transform: translateX(-50%);
+        }
+
+        .roadmap-item {
+            display: flex;
+            margin-bottom: 3rem;
+            align-items: center;
+        }
+
+        .roadmap-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .roadmap-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            margin: 0 2rem;
+        }
+
+        .roadmap-date {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-cyan);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .social-link.twitter:hover {
+            background: linear-gradient(135deg, #1da1f2, var(--neon-cyan));
+        }
+
+        .social-link.gitbook:hover {
+            background: linear-gradient(135deg, #3884ff, var(--neon-purple));
+        }
+
+        .social-link.telegram:hover {
+            background: linear-gradient(135deg, #0088cc, var(--neon-cyan));
+        }
+
+        .social-link.discord:hover {
+            background: linear-gradient(135deg, #7289da, var(--neon-purple));
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        /* Overlay for trade menu */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* RESPONSIVIDADE MOBILE - CORREÇÃO COMPLETA */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: left 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .logo-img {
+                width: 40px;
+                height: 40px;
+            }
+
+            nav {
+                padding: 0 1rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+
+            .trade-menu {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 320px;
+                margin-top: 0;
+            }
+
+            .trade-menu.active {
+                transform: translate(-50%, -50%);
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .token-info {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .roadmap-line {
+                left: 30px;
+            }
+
+            .roadmap-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 60px;
+            }
+
+            .roadmap-item:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .roadmap-content {
+                margin: 0;
+                width: 100%;
+            }
+
+            .terminal-frame-container {
+                height: 60vh;
+                min-height: 400px;
+            }
+
+            .terminal-section {
+                padding: 1.5rem;
+            }
+
+            .terminal-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .terminal-title {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .social-link {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .trade-menu-item {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .feature-card, .product-card, .token-card {
+                padding: 1.5rem;
+            }
+
+            .terminal-frame-container {
+                height: 50vh;
+                min-height: 350px;
+            }
+@media (max-width: 768px) {
+    .scanner-neural p,
+    .scanner-neural ul {
+        text-align: center;
+    }
+
+    .scanner-neural ul {
+        padding-left: 0;
+    }
+}
+
+        }
+
+        /* Additional Cyberpunk Effects */
+        .cyber-border {
+            position: relative;
+        }
+
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, rgba(0, 204, 102, 0.3), rgba(0, 255, 136, 0.3), rgba(0, 255, 255, 0.3), rgba(0, 204, 102, 0.3));
+            border-radius: inherit;
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .glitch-text {
+            position: relative;
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+/* Ajuste específico para a caixa SCANNER NEURAL */
+.scanner-neural {
+    height: auto;
+    padding: 1.2rem !important;
+}
+
+@media (min-width: 769px) {
+    .scanner-neural {
+        grid-column: span 3;
+        height: 180px;
+    }
+}
+
+
+.scanner-neural .scanner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 769px) {
+    .scanner-neural .scanner-content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+    }
+}
+
+
+.scanner-neural p {
+    flex: 2;
+    margin: 0;
+    text-align: left;
+}
+
+.scanner-neural ul {
+    flex: 1;
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.terminal-preview-box {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--neon-orange);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 102, 0, 0.2);
+    margin-top: 2rem;
+}
+
+.terminal-preview-text h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    color: var(--neon-orange);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px var(--neon-orange);
+}
+
+.terminal-preview-text p {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    animation: scrollCarousel 1500000s linear infinite;
+    gap: 3rem;
+    padding: 1rem 0;
+    overflow: visible;
+}
+
+.carousel-track img {
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 20px var(--neon-cyan);
+    transition: transform 0.5s ease;
+}
+
+.carousel-track img:hover {
+    transform: scale(1.1);
+}
+
+@keyframes scrollCarousel {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="overlay" id="overlay"></div>
+    
+    <header>
+        <nav>
+            <div class="logo-container">
+                <img src="logo.png" alt="Singularity Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo">SINGULARITY</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#token">Token</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#terminal">Terminal</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="particles"></div>
+        <div class="hero-content">
+            <h1 class="glitch-text">THE SINGULARITY</h1>
+            <p>Revolutionizing the future of trading with advanced artificial intelligence and next-generation automation</p>
+            <div class="cta-buttons-container">
+                <a href="#about" class="cta-button">EXPLORE ECOSYSTEM</a>
+<!-- TRADE Button -->
+<div class="trade-button-container">
+  <button class="cta-button cta-terminal" id="tradeButton">TRADE</button>
+  <div class="trade-menu" id="tradeMenu">
+    <a href="https://etherscan.io/address/0x9de21c9aa0f0a7e5fdc9262c3a4d925f017fbc8c" target="_blank" class="trade-menu-item">
+      <span class="icon">📊</span> ETHERSCAN
+    </a>
+    <a href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=NATIVE&outputCurrency=0x9de21c9aa0f0a7e5fdc9262c3a4d925f017fbc8c&exactField=output&chain=mainnet" target="_blank" class="trade-menu-item">
+      <span class="icon">🦄</span> UNISWAP
+    </a>
+    <a href="https://dexscreener.com/ethereum/0x9b772cc7ea788b7e123a363bd42acdc846cb3f44" target="_blank" class="trade-menu-item">
+      <span class="icon">🔍</span> DEXSCREENER
+    </a>
+    <a href="https://www.dextools.io/app/en/ether/pair-explorer/0x9b772cc7ea788b7e123a363bd42acdc846cb3f44?t=1753677855003" target="_blank" class="trade-menu-item">
+      <span class="icon">🛠️</span> DEXTOOLS
+    </a>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">OVERVIEW</h2>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: var(--text-gray);">
+            Singularity is a revolutionary platform that combines artificial intelligence, advanced automation, and blockchain technology to create the most sophisticated trading ecosystem in the market.
+        </p>
+        
+        <div class="about-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-POWERED</h3>
+                <p>Machine learning algorithms that analyze millions of data points in real-time for precise decision making.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>ULTRA-FAST</h3>
+                <p>Analyses execution in microseconds with near-zero latency for maximum efficiency.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>TOTAL SECURITY</h3>
+                <p>Military-grade security protocols and continuous auditing for complete asset protection.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2 class="section-title">PRODUCTS & MODULES</h2>
+        
+        <div class="products-grid">
+            <div class="product-card cyber-border">
+                <h3>BUYBOT PRO</h3>
+                <p>Automated buy-tracking system with real-time analytics and advanced trigger logic.</p>
+                <ul>
+                    <li>Smart trigger engine: detects high-impact buy patterns and volume spikes across EVM chains.</li>
+                    <li>Heuristic filtering: filters noise using dynamic thresholds based on volatility and liquidity.</li>
+                    <li>Adaptive risk flags: assigns predictive scores based on on-chain behavior, wallet reputation and trend position.</li>
+                    <li>Modular alerts: customizable filters for wallet buys, sudden inflows, sniper detection and anomaly alerts.</li>
+
+                </ul>
+            </div>
+            
+            <div class="product-card cyber-border">
+                <h3>RAIDBOT ELITE</h3>
+                <p>Real-time metric tracker for coordinated Twitter raids.</p>
+                <ul>
+                    <li>Live counters: monitors likes, reposts, and replies in real time.</li>
+                    <li>Progress bars: visual feedback as each engagement milestone is reached.</li>
+                    <li>Telegram integration: connected directly to the community channel for synchronized actions.
+
+</li>
+                </ul>
+            </div>
+            
+            <div class="product-card cyber-border">
+                <h3>DASHBOARD QUANTUM</h3>
+                <p>Futuristic interface with real-time metrics, predictive analytics, and total ecosystem control.</p>
+                <ul>
+                    <li>Real-time metrics</li>
+                    <li>Predictive analytics</li>
+                    <li>Intuitive interface</li>
+                </ul>
+            </div>
+            
+<div class="product-card cyber-border scanner-neural">
+    <div class="scanner-content">
+        <h3>SCANNER NEURAL</h3>
+        <p>AI that monitors thousands of tokens simultaneously, identifying opportunities before the market.</p>
+        <ul>
+            <li>24/7 monitoring</li>
+            <li>Instant alerts</li>
+            <li>Sentiment analysis</li>
+        </ul>
+    </div>
+</div>
+
+        </div>
+    </section>
+
+    <section id="token">
+        <h2 class="section-title">TOKEN UTILITY</h2>
+        
+        <div class="token-info">
+            <div class="token-card">
+                <h3 style="color: var(--neon-cyan); margin-bottom: 1rem;">TOKEN REWARDS</h3>
+                <p>Hold your $SING tokens to receive dynamic rewards based on real ecosystem usage — no staking or lockups required.</p>
+            </div>
+            
+            <div class="token-card">
+                <h3 style="color: var(--neon-magenta); margin-bottom: 1rem;">REVENUE SHARE</h3>
+                <p>Holders receive direct participation in profits generated by platform bots and tools operations.</p>
+            </div>
+            
+            <div class="token-card">
+                <h3 style="color: var(--neon-purple); margin-bottom: 1rem;">GOVERNANCE</h3>
+                <p>Vote on community proposals and help shape the future development of the Singularity platform.</p>
+            </div>
+            
+            <div class="token-card">
+                <h3 style="color: var(--neon-cyan); margin-bottom: 1rem;">PREMIUM ACCESS</h3>
+                <p>Exclusive access to advanced tools, alpha bots, and premium features for qualified holders.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap">
+        <h2 class="section-title">ROADMAP</h2>
+        
+        <div class="roadmap">
+            <div class="roadmap-line"></div>
+            
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-date">Q3 2025 – COMPLETED</div>
+                    <h3>FOUNDATION</h3>
+                    <p>Initial infrastructure, launch of SING token, and deployment of first bot modules (BuyBot & RaidBot core logic).</p>
+                </div>
+            </div>
+            
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-date">Q4 2025 – IN PROGRESS</div>
+                    <h3>EXPANSION</h3>
+                    <p>BuyBot Pro metrics upgrade, RaidBot visual integration, revenue-sharing interface, and public dashboard alpha.</p>
+                </div>
+            </div>
+            
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-date">Q1 2026 – NEXT</div>
+                    <h3>EVOLUTION</h3>
+                    <p>Release of advanced RaidBot Elite, automated alerts, and modular API for wallet & token analytics.</p>
+                </div>
+            </div>
+            
+            <div class="roadmap-item">
+                <div class="roadmap-content">
+                    <div class="roadmap-date">Q2 2026 – FUTURE</div>
+                    <h3>SINGULARITY</h3>
+                    <p>Neural agent integration, mobile dashboard version, and ecosystem expansion to new EVM chains.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+<section id="powered-by" style="padding: 3rem 0; text-align: center;">
+  <h2 class="section-title" style="margin-bottom: 2rem;">POWERED BY:</h2>
+  <div class="carousel-container">
+    <div class="carousel-track">
+      <img src="p1.jpg" alt="Logo 1" />
+      <img src="p2.jpg" alt="Logo 2" />
+      <img src="p3.jpg" alt="Logo 3" />
+      <img src="p4.jpg" alt="Logo 4" />
+      <img src="p5.jpg" alt="Logo 5" />
+      <img src="p6.jpg" alt="Logo 6" />
+      <img src="p7.jpg" alt="Logo 7" />
+      <img src="p8.jpg" alt="Logo 8" />
+    </div>
+  </div>
+</section>
+
+    <section id="contact">
+        <h2 class="section-title">JOIN THE SINGULARITY</h2>
+        
+        <div class="contact-form">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width: 100%;">SEND MESSAGE</button>
+            </form>
+        </div>
+        
+        <div class="social-links">
+<a href="https://x.com/ETHSingOFC" target="_blank" class="social-link twitter">
+    <i class="fab fa-twitter"></i> Twitter
+</a>
+
+<a href="https://siingularity.gitbook.io/singularity/" target="_blank" class="social-link gitbook">
+    <i class="fas fa-book"></i> GitBook
+</a>
+
+<a href="https://t.me/ETHSingularity" target="_blank" class="social-link telegram">
+  <i class="fab fa-telegram"></i> Telegram
+</a>
+
+
+
+        </div>
+    </section>
+
+    <section id="terminal">
+        <h2 class="section-title">TERMINAL</h2>
+        
+        <div class="terminal-section">
+            <div class="terminal-header">
+                <div class="terminal-title">SINGULARITY TERMINAL v2.0</div>
+                <div style="color: var(--neon-orange); font-family: 'Orbitron', monospace;">🔴 LIVE</div>
+            </div>
+            
+<div class="terminal-preview-box">
+  <div class="terminal-preview-text">
+    <h3>Preview: Singularity Terminal</h3>
+    <p>Access the full terminal with live AI metrics, trading signals, and automation tools.</p>
+    <a href="https://singularityeth-production.up.railway.app/" target="_blank" class="cta-button cta-terminal">
+      OPEN TERMINAL
+    </a>
+  </div>
+</div>
+
+
+  <div id="terminal-fallback" style="display: flex; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); border-radius: 15px; text-align: center; z-index: 10;">
+    <p style="color: #ccc; margin-bottom: 1rem;">⚠️ Terminal could not be loaded in this view.</p>
+    <a href="https://singularityeth-production.up.railway.app/" target="_blank" class="cta-button cta-terminal" style="text-decoration: none;">OPEN TERMINAL IN NEW TAB</a>
+  </div>
+</div>
+
+
+            </div>
+            
+            <p style="text-align: center; margin-top: 1rem; color: var(--text-gray); font-style: italic;">
+                    Access the Singularity Terminal: live token intelligence, market activity, and a slightly paranoid AI watching every move.
+
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Singularity. All rights reserved. | Building the future of automated trading.</p>
+    </footer>
+
+    <script>
+        // Audio System
+        class AudioManager {
+            constructor() {
+                this.backgroundMusic = new Audio('https://assets.mixkit.co/sfx/download/mixkit-game-level-music-689.wav');
+                this.clickSound = new Audio('https://assets.mixkit.co/sfx/download/mixkit-quick-win-video-game-notification-269.wav');
+                this.musicStarted = false;
+                this.init();
+            }
+
+            init() {
+                // Configure background music
+                this.backgroundMusic.loop = true;
+                this.backgroundMusic.volume = 0.3;
+                
+                // Configure click sound
+                this.clickSound.volume = 0.5;
+                
+                // Start music on first user interaction
+                document.addEventListener('click', () => this.startBackgroundMusic(), { once: true });
+                document.addEventListener('touchstart', () => this.startBackgroundMusic(), { once: true });
+                
+                // Add click sound to all cta-button elements
+                this.setupButtonSounds();
+            }
+
+            startBackgroundMusic() {
+                if (!this.musicStarted) {
+                    this.backgroundMusic.play().catch(e => console.log('Background music failed to start:', e));
+                    this.musicStarted = true;
+                }
+            }
+
+            playClickSound() {
+                // Clone the audio to allow overlapping sounds
+                const sound = this.clickSound.cloneNode();
+                sound.volume = 0.5;
+                sound.play().catch(e => console.log('Click sound failed:', e));
+            }
+
+            setupButtonSounds() {
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('cta-button') || 
+                        e.target.closest('.cta-button') ||
+                        e.target.classList.contains('trade-menu-item')) {
+                        this.playClickSound();
+                    }
+                });
+            }
+        }
+
+        // Initialize Audio Manager
+        const audioManager = new AudioManager();
+
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Trade Menu Toggle - MELHORADO
+        const tradeButton = document.getElementById('tradeButton');
+        const tradeMenu = document.getElementById('tradeMenu');
+        const overlay = document.getElementById('overlay');
+
+        tradeButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tradeMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            tradeMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!tradeButton.contains(e.target) && !tradeMenu.contains(e.target)) {
+                tradeMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // Close menu on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                tradeMenu.classList.remove('active');
+                overlay.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                navLinks.classList.remove('active');
+                tradeMenu.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+
+        // Particles Animation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            document.querySelector('.particles').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 6000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+            
+            // Simulate form submission
+            alert(`Thank you ${name}! Your message has been sent successfully. We will contact you soon.`);
+            this.reset();
+        });
+
+        // Header Background on Scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(10, 10, 10, 0.98)';
+            } else {
+                header.style.background = 'rgba(10, 10, 10, 0.95)';
+            }
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections except hero
+        document.querySelectorAll('section:not(#home)').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 0.8s ease';
+            observer.observe(section);
+        });
+
+        // Dynamic Typing Effect for Hero
+        const heroTitle = document.querySelector('.hero-content h1');
+        const text = 'THE SINGULARITY';
+        let index = 0;
+        
+        function typeWriter() {
+            if (index < text.length) {
+                heroTitle.textContent = text.slice(0, index + 1);
+                index++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        // Start typing effect after page load
+        window.addEventListener('load', () => {
+            heroTitle.textContent = '';
+            setTimeout(typeWriter, 1000);
+        });
+
+        // Advanced Visual Effects
+        class VisualEffects {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.createFloatingElements();
+                this.setupHoverEffects();
+                this.createEnergyBeams();
+                this.initTerminalEffects();
+            }
+
+            createFloatingElements() {
+                const container = document.createElement('div');
+                container.className = 'floating-elements';
+                container.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: -1;
+                `;
+
+                for (let i = 0; i < 15; i++) {
+                    const element = document.createElement('div');
+                    element.style.cssText = `
+                        position: absolute;
+                        width: ${Math.random() * 4 + 2}px;
+                        height: ${Math.random() * 4 + 2}px;
+                        background: ${Math.random() > 0.5 ? 'var(--neon-cyan)' : 'var(--neon-magenta)'};
+                        border-radius: 50%;
+                        left: ${Math.random() * 100}%;
+                        top: ${Math.random() * 100}%;
+                        animation: float ${Math.random() * 10 + 10}s ease-in-out infinite;
+                        opacity: ${Math.random() * 0.5 + 0.3};
+                        box-shadow: 0 0 10px currentColor;
+                    `;
+                    container.appendChild(element);
+                }
+
+                document.body.appendChild(container);
+            }
+
+            setupHoverEffects() {
+                document.querySelectorAll('.product-card, .feature-card').forEach(card => {
+                    card.addEventListener('mouseenter', (e) => {
+                        const rect = e.target.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                            position: absolute;
+                            left: ${x}px;
+                            top: ${y}px;
+                            width: 100px;
+                            height: 100px;
+                            background: radial-gradient(circle, rgba(0,255,255,0.2) 0%, transparent 70%);
+                            border-radius: 50%;
+                            transform: translate(-50%, -50%) scale(0);
+                            animation: ripple 0.6s ease-out;
+                            pointer-events: none;
+                        `;
+                        
+                        card.appendChild(ripple);
+                        
+                        setTimeout(() => ripple.remove(), 600);
+                    });
+                });
+            }
+
+            createEnergyBeams() {
+                const beamsContainer = document.createElement('div');
+                beamsContainer.className = 'energy-beams';
+                beamsContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: -1;
+                    overflow: hidden;
+                `;
+
+                for (let i = 0; i < 3; i++) {
+                    const beam = document.createElement('div');
+                    beam.style.cssText = `
+                        position: absolute;
+                        width: 1px;
+                        height: 100%;
+                        background: linear-gradient(to bottom, transparent, var(--neon-cyan), transparent);
+                        left: ${Math.random() * 100}%;
+                        animation: beamMove ${Math.random() * 4 + 3}s linear infinite;
+                        opacity: 0.2;
+                    `;
+                    beamsContainer.appendChild(beam);
+                }
+
+                document.body.appendChild(beamsContainer);
+            }
+
+            initTerminalEffects() {
+                const terminalSection = document.querySelector('.terminal-section');
+                if (terminalSection) {
+                    // Add pulsing effect to terminal
+                    setInterval(() => {
+                        terminalSection.style.boxShadow = `0 0 ${Math.random() * 20 + 30}px rgba(255, 102, 0, 0.3)`;
+                    }, 2000);
+                }
+            }
+        }
+
+        // Initialize visual effects
+        new VisualEffects();
+
+        // Terminal Loading Effect
+        class TerminalLoader {
+            constructor() {
+                this.initLoader();
+            }
+
+            initLoader() {
+                const terminalFrame = document.querySelector('.terminal-frame');
+                if (terminalFrame) {
+                    terminalFrame.addEventListener('load', () => {
+                        this.showTerminalReady();
+                    });
+                }
+            }
+
+            showTerminalReady() {
+                const header = document.querySelector('.terminal-header');
+                const readyIndicator = document.createElement('div');
+                readyIndicator.style.cssText = `
+                    color: var(--neon-cyan);
+                    font-family: 'Orbitron', monospace;
+                    font-size: 0.9rem;
+                    animation: pulse 2s infinite;
+                `;
+                readyIndicator.textContent = '✓ TERMINAL READY';
+                
+                // Replace LIVE indicator after 3 seconds
+                setTimeout(() => {
+                    const liveIndicator = header.querySelector('div:last-child');
+                    if (liveIndicator) {
+                        liveIndicator.replaceWith(readyIndicator);
+                    }
+                }, 3000);
+            }
+        }
+
+        // Performance Monitor
+        class PerformanceMonitor {
+            constructor() {
+                this.fps = 0;
+                this.lastTime = performance.now();
+                this.frameCount = 0;
+                this.init();
+            }
+
+            init() {
+                this.monitor();
+            }
+
+            monitor() {
+                const currentTime = performance.now();
+                this.frameCount++;
+
+                if (currentTime - this.lastTime >= 1000) {
+                    this.fps = Math.round((this.frameCount * 1000) / (currentTime - this.lastTime));
+                    this.frameCount = 0;
+                    this.lastTime = currentTime;
+
+                    // Adjust effects based on performance
+                    if (this.fps < 30) {
+                        document.querySelectorAll('.floating-elements').forEach(el => {
+                            el.style.display = 'none';
+                        });
+                    }
+                }
+
+                requestAnimationFrame(() => this.monitor());
+            }
+        }
+
+        // Initialize all systems
+        new TerminalLoader();
+        new PerformanceMonitor();
+
+        // CSS Animations via JavaScript
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: translate(-50%, -50%) scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes beamMove {
+                0% { transform: translateX(-100px); }
+                100% { transform: translateX(100vw); }
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+            
+            /* Additional Glow Effects */
+            .feature-card:hover .feature-icon {
+                animation: iconGlow 1s ease-in-out infinite alternate;
+            }
+            
+            @keyframes iconGlow {
+                from { text-shadow: 0 0 20px var(--neon-magenta); }
+                to { text-shadow: 0 0 30px var(--neon-cyan), 0 0 40px var(--neon-magenta); }
+            }
+            
+            /* Terminal Glow Animation */
+            .terminal-section:hover {
+                box-shadow: 0 0 60px rgba(255, 102, 0, 0.4) !important;
+                transition: box-shadow 0.3s ease;
+            }
+            
+            /* Touch improvements for mobile */
+            @media (hover: none) {
+                .feature-card:hover::before,
+                .product-card:hover::before {
+                    opacity: 0.05;
+                }
+                
+                .feature-card:active,
+                .product-card:active {
+                    transform: scale(0.98);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Console Messages
+        console.log('🚀 Singularity Website Loaded - All Systems Online');
+        console.log('💫 Advanced Effects: ✓ Activated');
+        console.log('🖥️ Terminal: ✓ Moved to End & Integrated with Scroll Support');
+        console.log('🔗 Trade Menu: ✓ Properly Aligned');
+        console.log('📱 Mobile Responsive: ✓ Optimized');
+        console.log('🎨 Product Colors: ✓ Improved Readability');
+        console.log('⚡ Performance Monitor: ✓ Running');
+        console.log('🔊 Audio System: ✓ Background Music & Click Sounds Active');
+    </script>
+</body>
+</html>
