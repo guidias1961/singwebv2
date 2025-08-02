@@ -11,6 +11,72 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+.contract-box {
+  display: table;
+  padding: 0.6rem 1.2rem;
+  background: rgba(0, 255, 255, 0.07);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: all;
+  white-space: nowrap;         /* força uma linha só */
+  overflow-x: auto;            /* permite scroll horizontal se necessário */
+  word-break: normal;          /* impede quebra no meio */
+  max-width: 90vw;
+  margin: -1.5rem auto 3rem auto;
+}
+
+
+
+
+.copy-btn {
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 30px;
+  padding: 0.5rem 1.2rem;
+  color: var(--bg-dark);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  gap: 2rem;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.social-icons a {
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: var(--neon-cyan);
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -1103,26 +1169,35 @@
     <div class="overlay" id="overlay"></div>
     
     <header>
-        <nav>
-            <div class="logo-container">
-                <img src="logo.png" alt="Singularity Logo" class="logo-img" onerror="this.style.display='none'">
-                <div class="logo">SINGULARITY</div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#token">Token</a></li>
-                <li><a href="#roadmap">Roadmap</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#terminal">Terminal</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
+       <nav>
+  <div class="logo-container">
+    <img src="logo.png" alt="Singularity Logo" class="logo-img" onerror="this.style.display='none'">
+    <div class="logo">SINGULARITY</div>
+  </div>
+
+  <div class="social-icons">
+    <a href="https://x.com/ETHSingOFC" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://siingularity.gitbook.io/singularity/" target="_blank" title="GitBook"><i class="fas fa-book"></i></a>
+    <a href="https://t.me/ETHSingularity" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#token">Token</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#terminal">Terminal</a></li>
+  </ul>
+
+  <div class="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
     </header>
 
     <section id="home" class="hero">
@@ -1158,6 +1233,10 @@
             </div>
         </div>
     </section>
+<div class="contract-box" onclick="copyContract()" title="Click to copy">
+  0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c
+</div>
+
 
     <section id="about">
         <h2 class="section-title">OVERVIEW</h2>
@@ -1398,6 +1477,19 @@
     </footer>
 
     <script>
+function copyContract() {
+  const text = "0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c";
+  navigator.clipboard.writeText(text).then(() => {
+    const box = document.querySelector('.contract-box');
+    const original = box.textContent;
+    box.textContent = "Copied!";
+    setTimeout(() => { box.textContent = original; }, 1500);
+  }).catch(err => {
+    alert("Copy failed: " + err);
+  });
+}
+
+
         // Audio System
         class AudioManager {
             constructor() {
@@ -1859,6 +1951,16 @@ window.addEventListener('resize', updateCarouselSpeed);
         console.log('🎨 Product Colors: ✓ Improved Readability');
         console.log('⚡ Performance Monitor: ✓ Running');
         console.log('🔊 Audio System: ✓ Background Music & Click Sounds Active');
+function copyContract() {
+  const text = "0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c";
+  navigator.clipboard.writeText(text).then(() => {
+    const box = document.querySelector('.contract-box');
+    const original = box.textContent;
+    box.textContent = "Copied!";
+    setTimeout(() => { box.textContent = original; }, 1500);
+  });
+}
+
     </script>
 </body>
 </html>
