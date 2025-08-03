@@ -32,28 +32,11 @@
   font-size: 0.9rem;
   color: var(--text-light);
 
-  cursor: pointer;
-  user-select: all;
-  white-space: nowrap;
-  overflow-x: auto;
-
   max-width: 90vw;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
-
-
-
-.contract-box::-webkit-scrollbar {
-  height: 4px;
-}
-.contract-box::-webkit-scrollbar-thumb {
-  background: var(--neon-cyan);
-  border-radius: 2px;
-}
-.contract-box .copy-label {
-  font-weight: bold;
-  color: var(--neon-cyan);
-}
 
 
 
@@ -1197,14 +1180,18 @@ nav {
 
 @media (max-width: 768px) {
   .contract-box .contract-text {
-    display: none;
+    display: inline;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow-x: auto;
+    max-width: 90vw;
   }
 
   .contract-box .copy-mobile-label {
-    display: inline;
-    font-weight: bold;
+    display: none;
   }
 }
+
 
 
     </style>
@@ -1279,11 +1266,11 @@ nav {
         </div>
     </section>
 <div class="contract-wrapper">
-  <div class="contract-box" onclick="copyContract()" title="Click to copy">
+  <div class="contract-box">
     <span class="contract-text">0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c</span>
-    <span class="copy-label">Copy Contract</span>
   </div>
 </div>
+
 
 
     <section id="about">
@@ -1525,18 +1512,7 @@ nav {
     </footer>
 
     <script>
-function copyContract() {
-  const contract = "0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c";
-  navigator.clipboard.writeText(contract).then(() => {
-    const box = document.querySelector('.contract-box');
-    const label = box.querySelector('.copy-label');
-    const original = label.textContent;
-    label.textContent = "Copied!";
-    setTimeout(() => label.textContent = original, 1500);
-  }).catch(err => {
-    alert("Copy failed: " + err);
-  });
-}
+
 
         // Audio System
         class AudioManager {
