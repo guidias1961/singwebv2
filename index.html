@@ -1166,6 +1166,20 @@ nav {
 }
 
 
+.contract-box .copy-mobile-label {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .contract-box .contract-text {
+    display: none;
+  }
+
+  .contract-box .copy-mobile-label {
+    display: inline;
+    font-weight: bold;
+  }
+}
 
 
     </style>
@@ -1240,8 +1254,11 @@ nav {
         </div>
     </section>
 <div class="contract-box" onclick="copyContract()" title="Click to copy">
-  0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c
+  <span class="contract-text">0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c</span>
+  <span class="copy-mobile-label">Copy Contract</span>
 </div>
+
+
 
 
     <section id="about">
@@ -1484,16 +1501,27 @@ nav {
 
     <script>
 function copyContract() {
-  const text = "0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c";
-  navigator.clipboard.writeText(text).then(() => {
+  const contract = "0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c";
+  navigator.clipboard.writeText(contract).then(() => {
     const box = document.querySelector('.contract-box');
-    const original = box.textContent;
-    box.textContent = "Copied!";
-    setTimeout(() => { box.textContent = original; }, 1500);
+    const textSpan = box.querySelector('.contract-text');
+    const mobileSpan = box.querySelector('.copy-mobile-label');
+
+    const originalText = textSpan ? textSpan.textContent : '';
+    const originalMobile = mobileSpan ? mobileSpan.textContent : '';
+
+    if (textSpan) textSpan.textContent = "Copied!";
+    if (mobileSpan) mobileSpan.textContent = "Copied!";
+
+    setTimeout(() => {
+      if (textSpan) textSpan.textContent = originalText;
+      if (mobileSpan) mobileSpan.textContent = originalMobile;
+    }, 1500);
   }).catch(err => {
     alert("Copy failed: " + err);
   });
 }
+
 
 
         // Audio System
