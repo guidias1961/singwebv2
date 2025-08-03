@@ -11,25 +11,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+.contract-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
 .contract-box {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 1rem;
+
   padding: 0.6rem 1.2rem;
   background: rgba(0, 255, 255, 0.07);
   border: 1px solid rgba(0, 255, 255, 0.3);
   border-radius: 12px;
+
   font-family: 'Courier New', monospace;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-light);
+
   cursor: pointer;
   user-select: all;
   white-space: nowrap;
   overflow-x: auto;
+
   max-width: 90vw;
-  margin: -1.5rem auto 3rem auto;
 }
+
+
+
 
 .contract-box::-webkit-scrollbar {
   height: 4px;
@@ -1266,12 +1278,12 @@ nav {
             </div>
         </div>
     </section>
-<div class="contract-box" onclick="copyContract()" title="Click to copy">
-  <span class="contract-text">0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c</span>
-  <span class="copy-label">Copy Contract</span>
+<div class="contract-wrapper">
+  <div class="contract-box" onclick="copyContract()" title="Click to copy">
+    <span class="contract-text">0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c</span>
+    <span class="copy-label">Copy Contract</span>
+  </div>
 </div>
-
-
 
 
     <section id="about">
@@ -1517,22 +1529,14 @@ function copyContract() {
   const contract = "0x9dE21C9Aa0f0A7e5FDC9262C3A4D925f017FBC8c";
   navigator.clipboard.writeText(contract).then(() => {
     const box = document.querySelector('.contract-box');
-    const textSpan = box.querySelector('.contract-text');
-    const labelSpan = box.querySelector('.copy-label');
-
-    const originalText = labelSpan.textContent;
-    labelSpan.textContent = "Copied!";
-
-    setTimeout(() => {
-      labelSpan.textContent = originalText;
-    }, 1500);
+    const label = box.querySelector('.copy-label');
+    const original = label.textContent;
+    label.textContent = "Copied!";
+    setTimeout(() => label.textContent = original, 1500);
   }).catch(err => {
     alert("Copy failed: " + err);
   });
 }
-
-
-
 
         // Audio System
         class AudioManager {
